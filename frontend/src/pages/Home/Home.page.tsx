@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { EventsEmit, EventsOn } from '../../../wailsjs/runtime';
+import { useState } from "react";
+import { ActionChat } from "../../../wailsjs/go/chat/Chat";
 import { Page } from "../../components/Page/Page";
 import { downloadModel } from "../../lib/models";
 
@@ -17,16 +17,12 @@ export const PageHome = () => {
 
   const send = () => {
     if (!prompt) return;
-    EventsEmit("chat", "gpt2", prompt);
+    ActionChat("gpt2", prompt).then(r => {
+      setChatHistory(chatHistory => [...chatHistory, r.response]);
+    });
     setChatHistory(chatHistory => [...chatHistory, prompt]);
     setPrompt("");
   }
-
-  useEffect(() => {
-    EventsOn("chat-response", ({ response }: { response: string }) => {
-      setChatHistory(chatHistory => [...chatHistory, response]);
-    });
-  }, []);
 
   return <Page>
     <h1>Home</h1>

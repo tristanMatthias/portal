@@ -10,7 +10,7 @@ import (
 const pythonApi = "http://localhost:8000"
 
 // Call the python API at localhost:8080/chat/<model>
-func Chat(model string, messages []string) (string, error) {
+func PythonChat(model string, messages []string) (string, error) {
 	// Convert messages to JSON string
 	messageData, err := json.Marshal(map[string]interface{}{
 		"messages": messages,

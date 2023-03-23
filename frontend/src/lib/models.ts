@@ -1,6 +1,7 @@
-import { EventsEmit, EventsOn } from '../../wailsjs/runtime'
+import { ActionDownload } from '../../wailsjs/go/model/model';
+import { EventsOn } from '../../wailsjs/runtime';
 
 export function downloadModel(model: string, cb: (data: any) => void) {
-  EventsEmit("download", model);
+  ActionDownload(model);
   EventsOn("download-progress", cb);
 }

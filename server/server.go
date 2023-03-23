@@ -2,27 +2,40 @@ package server
 
 import (
 	"context"
-	events "portal/server/events"
+	"portal/server/chat"
+	"portal/server/events"
+	"portal/server/model"
 )
 
-// App struct
-type App struct {
+type ServerModule struct {
 	ctx context.Context
+	Controllers map[string]interface{}
 }
 
-// Portal creates a new App application struct
-func Portal() *App {
-	return &App{}
+// Server creates a new App application struct
+func Server() *ServerModule {
+	controllers := make(map[string]interface{})
+	controllers["chat"] = chat.ChatController()
+	controllers["model"] = model.ModelController()
+	return &ServerModule{
+		Controllers: controllers,
+	}
 }
 
 // Startup is called when the app starts. The context is saved
 // so we can call the runtime methods
-func (a *App) Startup(ctx context.Context) {
-	a.ctx = ctx
+func (s *ServerModule) Startup(ctx context.Context) {
+	s.ctx = ctx
+	// Loop through the controllers and call their startup methods
+	for _, controller := range s.Controllers {
+		// If the controller doesn't have a startup method, it will be skipped
+		i, ok := controller.(interface {
+			Startup(context.Context)
+		})
+
+		if ok {
+			i.Startup(ctx)
+		}
+	}
 	events.GenerateEventHandlers(ctx)
 }
-
-// // Greet returns a greeting for the given name
-// func (a *App) Greet(name string) string {
-// 	return fmt.Sprintf("Hello %s, It's show time!", name)
-// }

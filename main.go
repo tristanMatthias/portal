@@ -13,8 +13,16 @@ import (
 var assets embed.FS
 
 func main() {
-	// Create an instance of the app structure
-	app := s.Portal()
+	// Create an instance of the server structure
+	server := s.Server()
+
+	// Reduce server controller to an array of interfaces
+	controllers := make([]interface{}, len(server.Controllers))
+	i := 0
+	for _, v := range server.Controllers {
+		controllers[i] = v
+		i++
+	}
 
 	// Create application with options
 	err := wails.Run(&options.App{
@@ -25,10 +33,10 @@ func main() {
 			Assets: assets,
 		},
 		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
-		OnStartup:        app.Startup,
-		Bind: []interface{}{
-			app,
-		},
+		OnStartup:        server.Startup,
+		Bind: append([]interface{}{
+			server,
+		}, controllers...),
 	})
 
 	if err != nil {
