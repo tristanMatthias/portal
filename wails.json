@@ -1,7 +1,7 @@
 {
   "$schema": "https://wails.io/schemas/config.v2.json",
-  "name": "portal",
-  "outputfilename": "portal",
+  "name": "Portal",
+  "outputfilename": "Portal",
   "frontend:install": "pnpm i",
   "frontend:build": "pnpm build",
   "frontend:dev:watcher": "pnpm dev",
