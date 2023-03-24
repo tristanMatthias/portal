@@ -1,6 +1,8 @@
 package model
 
-import "context"
+import (
+	"context"
+)
 
 const (
 	EventDownloadProgress = "download-progress"

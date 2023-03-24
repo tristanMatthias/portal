@@ -1,0 +1,10 @@
+#page {
+  padding: var(--s-4);
+
+  display: grid;
+  grid-template-columns: 16rem 1fr;
+
+  main:only-child {
+    grid-column: span 2;
+  }
+}

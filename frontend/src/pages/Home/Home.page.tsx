@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ActionChat } from "../../../wailsjs/go/chat/Chat";
-import { Page } from "../../components/Page/Page";
 import { downloadModel } from "../../lib/models";
+import './Home.page.scss';
+import Sidebar from "./Sidebar/Sidebar";
+import Page from "../../components/Page/Page";
+import { ActionModelsList } from "../../../wailsjs/go/model/model";
 
-export const PageHome = () => {
+export default function PageHome() {
   const [downloadState, setDownloadState] = useState<any | null>(null);
   const [model, setModel] = useState<string | null>(null);
+  const [models, setModels] = useState<string[]>([]);
 
   const [prompt, setPrompt] = useState<string | null>(null);
   const [chatHistory, setChatHistory] = useState<string[]>([]);
@@ -24,11 +28,15 @@ export const PageHome = () => {
     setPrompt("");
   }
 
-  return <Page>
-    <h1>Home</h1>
+  useEffect(() => {
+    ActionModelsList().then(setModels)
+  }, []);
 
-    <hr />
-
+  return <Page
+    id="home"
+    title="Home"
+    sidebar={<Sidebar />}
+  >
     <h2>Download a model</h2>
     <input
       type="text"
@@ -45,6 +53,11 @@ export const PageHome = () => {
     </pre>
 
     <hr />
+
+    <h2>Downloaded models</h2>
+    <ul>
+      {models.map((model, i) => <li key={i}>{model}</li>)}
+    </ul>
 
     <h2>Chat with GPT2</h2>
 

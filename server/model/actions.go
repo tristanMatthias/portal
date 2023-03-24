@@ -1,6 +1,7 @@
 package model
 
 import (
+	"portal/server/lib"
 	"time"
 
 	rt "github.com/wailsapp/wails/v2/pkg/runtime"
@@ -34,4 +35,16 @@ func (m *Model) ActionDownload(model string) {
 		time.Sleep(1 * time.Second)
 	}
 
+}
+
+// An action that lists directories in the models directory
+func (m *Model) ActionModelsList() []string {
+	mp := lib.ModelPath(nil)
+	dirs, err := lib.ListDirs(mp)
+
+	if err != nil {
+		return []string{}
+	}
+
+	return dirs
 }

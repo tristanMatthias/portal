@@ -1,0 +1,96 @@
+@use "sass:map";
+
+$sizes: (
+  '0': none,
+  '05': 0.2rem,
+  '1': 0.4rem,
+  '2': 0.8rem,
+  '3': 1.2rem,
+  '4': 1.6rem,
+  '5': 2.4rem,
+  '6': 3.6rem,
+  '7': 4.8rem,
+  '8': 6.4rem,
+  '9': 9.6rem,
+  '10': 12.8rem
+);
+
+$base-h: 240;
+$base-s: 11%;
+
+$colors: (
+  "black": hsl($base-h, $base-s, 7%,),
+  "grey-900": hsl($base-h, $base-s, 9%,),
+  "grey-800": hsl($base-h, $base-s, 11%,),
+  "grey-700": hsl($base-h, $base-s, 17%,),
+  "grey-600": hsl($base-h, $base-s, 26%,),
+  "grey-500": hsl($base-h, 10%, 43%,),
+  "grey-400": hsl($base-h, $base-s, 52%,),
+  "grey-300": hsl($base-h, 24%, 70%,),
+  "grey-200": hsl($base-h, 39%, 87%,),
+  "grey-100": hsl($base-h, 100%, 97%,),
+  "white": hsl($base-h, 0%, 100%,),
+  'white-translucent': rgba(white, 50%),
+
+  'red-700': #662121,
+  'red-600': #a02b2b,
+  'red-500': #E5392E,
+  'red-200': rgba(#E5392E, 15%),
+  'red-100': rgba(#E5392E, 5%),
+
+  'purple-500': #5E00F8,
+  'purple-200': rgba(#5E00F8, 5%),
+  'purple-100': hsl(263, 40%, 11%),
+  'orange-500': #EF8F00,
+  'green-500': #1EE98D
+);
+
+// Extend the colors map with a new color
+$colors: map-merge(
+  (
+    'primary': map.get($colors, 'purple-500'),
+    'secondary': map.get($colors, 'orange-500'),
+    'tertiary': map.get($colors, 'yellow-500'),
+    'danger': map.get($colors, 'red-500'),
+    'hover-bg': map.get($colors, 'grey-800'),
+    'active-bg': map.get($colors, 'grey-800'),
+    'error-bg': map.get($colors, 'red-200'),
+
+    'placeholder': map.get($colors, 'grey-500'),
+    'field-bg': map.get($colors, 'grey-700'),
+  ),
+  $colors
+);
+
+$font-sizes: (
+  'tiny': 1.2rem,
+  'small': 1.6rem,
+  'main': 1.8rem,
+  'large': 2.4rem,
+  'xlarge': 3.6rem
+);
+
+$font-weights: (
+  'light': 400,
+  'normal': 500,
+  'bold': 700
+);
+
+$font-families: (
+  'main': ('Circular Std', sans-serif),
+  'mono': ('Space Mono', monospace)
+);
+
+$border-radius: var(--s-1);
+$border-radius-small: var(--s-05);
+
+$borders: (
+  'default': 1px solid var(--c-grey-500),
+  'soft': 1px solid var(--c-grey-600),
+  'hover': 1px solid var(--c-grey-300),
+  'focus': 1px solid var(--c-white),
+  'error': 1px solid var(--c-red-600),
+  'error-focus': 1px solid var(--c-red-500)
+);
+
+$transition-time: 0.1s;
