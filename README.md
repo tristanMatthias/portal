@@ -24,3 +24,6 @@ To run the app in development
 ```
 wails dev
 ```
+
+## List of transformers to try
+https://huggingface.co/transformers/v4.4.2/

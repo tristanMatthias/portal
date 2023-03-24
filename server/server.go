@@ -4,6 +4,7 @@ import (
 	"context"
 	"portal/server/chat"
 	"portal/server/events"
+	huggingface "portal/server/hugging-face"
 	"portal/server/model"
 )
 
@@ -17,6 +18,8 @@ func Server() *ServerModule {
 	controllers := make(map[string]interface{})
 	controllers["chat"] = chat.ChatController()
 	controllers["model"] = model.ModelController()
+	controllers["huggingface"] = huggingface.HuggingFaceController()
+
 	return &ServerModule{
 		Controllers: controllers,
 	}
