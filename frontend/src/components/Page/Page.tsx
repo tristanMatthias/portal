@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../Sidebar/Sidebar";
 import "./Page.scss";
 
 export interface PageProps {
   id: string;
   title: string;
-  sidebar?: JSX.Element;
+  sidebar?: boolean;
   backButton?: {
     to: string;
     text?: string;
@@ -12,7 +13,7 @@ export interface PageProps {
   children: React.ReactNode;
 }
 export default function Page({
-  sidebar,
+  sidebar = true,
   children,
   id,
   title,
@@ -21,7 +22,7 @@ export default function Page({
   const navigate = useNavigate();
 
   return <>
-    {sidebar}
+    {sidebar && <Sidebar />}
     <main id={id}>
       <header>
         {backButton && <button onClick={() => navigate(backButton.to)}>

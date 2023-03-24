@@ -7,8 +7,8 @@ export default function Sidebar() {
   return <aside>
     <nav>
       <button>Resume</button>
-      <button>Open</button>
-      <button>Models</button>
+      <button>Conversations</button>
+      <button onClick={() => navigate('/models')}>Models</button>
       <button>Search</button>
       <button onClick={() => navigate('/settings')}>Settings</button>
     </nav>

@@ -8,12 +8,14 @@ specifiers:
   react-dom: ^18.2.0
   react-router-dom: ^6.9.0
   sass: ^1.59.3
+  senta-ui: ^0.0.0
   typescript: ^4.6.4
   vite: ^3.0.7
 
 dependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  senta-ui: link:node_modules/senta-ui
 
 devDependencies:
   '@types/react': 18.0.28
