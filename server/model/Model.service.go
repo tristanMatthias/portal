@@ -26,7 +26,8 @@ func (m *IModelService) Create(opts EModel) (EModel, error) {
 // Get a model
 func (m *IModelService) Get(id string) (EModel, error) {
 	var model EModel
-	result := database.DB.First(&model, id)
+	// Find by ID
+	result := database.DB.First(&model, "id = ?", id)
 	if result.Error != nil {
 		return EModel{}, result.Error
 	}

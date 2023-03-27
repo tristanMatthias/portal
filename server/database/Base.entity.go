@@ -9,8 +9,14 @@ import (
 
 type BaseEntity struct {
 	gorm.Model
-	ID        uuid.UUID      `json:"id" gorm:"type:uuid;default:uuid_generate_v4()"`
+	ID        string         `json:"id" gorm:"primaryKey`
 	CreatedAt time.Time      `json:"createdAt"`
 	UpdatedAt time.Time      `json:"updatedAt"`
 	DeletedAt gorm.DeletedAt `gorm:"index"`
+}
+
+
+func (base *BaseEntity) BeforeCreate(tx *gorm.DB) (err error) {
+	base.ID = uuid.New().String()
+	return
 }

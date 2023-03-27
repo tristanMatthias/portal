@@ -2,7 +2,9 @@ package main
 
 import (
 	"embed"
+	"os"
 	s "portal/server"
+	"portal/server/lib"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
@@ -13,6 +15,9 @@ import (
 var assets embed.FS
 
 func main() {
+	// Create the config directory if it doesn't exist
+	os.Mkdir(lib.ConfigPath(""), 0755)
+
 	// Create an instance of the server structure
 	server := s.Server()
 
