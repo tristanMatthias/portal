@@ -1,4 +1,4 @@
-package model
+package model_lib
 
 import (
 	"fmt"
@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"portal/server/lib"
 	"sync"
 )
 
@@ -19,18 +20,18 @@ type Download struct {
 var Downloads = make(map[string]*Download)
 var DownloadsLock sync.Mutex
 
-func DownloadModel(model string) {
+func DownloadModel(hfId string) {
 
 	DownloadsLock.Lock()
-	if _, ok := Downloads[model]; ok {
+	if _, ok := Downloads[hfId]; ok {
 		DownloadsLock.Unlock()
 		return
 	}
-	download := &Download{URL: model}
-	Downloads[model] = download
+	download := &Download{URL: hfId}
+	Downloads[hfId] = download
 	DownloadsLock.Unlock()
 
-	modelPath := filepath.Join(os.Getenv("HOME"), ".portal", "models", model)
+	modelPath := lib.ModelPath(&hfId)
 	err := os.MkdirAll(modelPath, 0755)
 	if err != nil {
 		fmt.Println("Mkdir error:", err)
@@ -39,14 +40,14 @@ func DownloadModel(model string) {
 
 	// Download model file
 	modelFile := filepath.Join(modelPath, "pytorch_model.bin")
-	downloadFile(modelFile, ModelURL(model), download)
+	downloadFile(modelFile, ModelURL(hfId), download)
 
 	// Download config file
 	configFile := filepath.Join(modelPath, "config.json")
-	downloadFile(configFile, ConfigURL(model), download)
+	downloadFile(configFile, ConfigURL(hfId), download)
 
 	// Download tokenizer files
-	tokenizerFiles := TokenizerURLs(model)
+	tokenizerFiles := TokenizerURLs(hfId)
 	for filename, url := range tokenizerFiles {
 		tokenizerFile := filepath.Join(modelPath, filename)
 		downloadFile(tokenizerFile, url, download)

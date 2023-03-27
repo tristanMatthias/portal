@@ -5,10 +5,16 @@ import (
 	"path/filepath"
 )
 
+func ConfigPath(fp ...string) string {
+	// Join all paths with the config path
+	return filepath.Join(
+		append([]string{
+			os.Getenv("HOME"),
+			".portal",
+		}, fp...)...,
+	)
+}
+
 func ModelPath(model *string) string {
-    if model == nil {
-        return filepath.Join(os.Getenv("HOME"), ".portal", "models")
-    } else {
-        return filepath.Join(os.Getenv("HOME"), ".portal", "models", *model)
-    }
+	return filepath.Join(ConfigPath(), "models", *model)
 }
