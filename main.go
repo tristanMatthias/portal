@@ -3,7 +3,7 @@ package main
 import (
 	"embed"
 	"os"
-	s "portal/server"
+	"portal/server"
 	"portal/server/lib"
 
 	"github.com/wailsapp/wails/v2"
@@ -19,7 +19,7 @@ func main() {
 	os.Mkdir(lib.ConfigPath(""), 0755)
 
 	// Create an instance of the server structure
-	server := s.Server()
+	server := server.Server()
 
 	// Reduce server controller to an array of interfaces
 	controllers := make([]interface{}, len(server.Controllers))

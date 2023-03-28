@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-const pythonApi = "http://localhost:8000"
+const pythonApi = "http://localhost:9997"
 
 // Call the python API at localhost:8080/chat/<model>
 func PythonChat(model string, messages []string) (string, error) {

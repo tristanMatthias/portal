@@ -1,8 +1,8 @@
 package model
 
 import (
+	"fmt"
 	ml "portal/server/model/model_lib"
-	"time"
 
 	rt "github.com/wailsapp/wails/v2/pkg/runtime"
 )
@@ -21,44 +21,21 @@ func (m *Model) ActionDownload(hfModelID string) {
 		})
 	}
 
-	emitUpdate := func(progress ml.Download) {
-		rt.EventsEmit(m.ctx, EventDownloadProgress, progress)
-	}
 
-	go ml.DownloadModel(hfModelID)
+	go ml.DownloadModel(hfModelID, func(progress float64) {
+		// Update model's download progress
+		service.Update(hfModelID, EModel{ DownloadProgress: int(progress), })
 
-	for {
-		ml.DownloadsLock.Lock()
-
-		// Check if the download is complete
-		downloadCompleted := false
-		for _, download := range ml.Downloads {
-			emitUpdate(*download)
-			if download.Done {
-				downloadCompleted = true
-				println("Download complete")
-				// Update model's download progress
-				service.Update(hfModelID, EModel{
-					Downloaded:       true,
-					DownloadProgress: 100,
-				})
-			} else {
-				println("Download progress:", int(download.Progress * 100 / download.Total))
-				// Update model's download progress
-				service.Update(hfModelID, EModel{
-					DownloadProgress: int(download.Progress * 100 / download.Total),
-				})
-			}
+		// Update the model in the frontend
+		model.DownloadProgress = int(progress * 100)
+		if model.DownloadProgress == 100 {
+			fmt.Println("Downloaded", hfModelID)
+			// Update the model in the frontend
+			model.Downloaded = true
+			service.Update(hfModelID, model)
 		}
-		ml.DownloadsLock.Unlock()
-
-		// Close the connection if the download is complete
-		if downloadCompleted {
-			break
-		}
-
-		time.Sleep(1 * time.Second)
-	}
+		rt.EventsEmit(m.ctx, EventDownloadProgress, model)
+	})
 
 }
 

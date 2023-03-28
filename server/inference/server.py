@@ -2,7 +2,7 @@ from typing import List
 
 # Create a fast API
 from fastapi import FastAPI
-from lib.Chat import Chat
+from Chat import Chat
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -27,4 +27,4 @@ def chat(model: str, message: Message):
 # Run the server
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="localhost", port=8000)
+    uvicorn.run(app, host="localhost", port=9997)

@@ -6,6 +6,7 @@ import (
 	"portal/server/database"
 	"portal/server/events"
 	huggingface "portal/server/hugging-face"
+	"portal/server/inference"
 	"portal/server/model"
 	"portal/server/settings"
 )
@@ -54,5 +55,7 @@ func (s *ServerModule) Startup(ctx context.Context) {
 		println("Error migrating database:", err.Error())
 		panic(err)
 	}
+
 	settings.Setup()
+	go inference.Init()
 }
